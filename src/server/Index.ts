@@ -1,7 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
 import { Application } from "express";
-import { createServer, Server as Http, ServerOptions } from "https";
+import { createServer as createHTTPS, Server as Https, ServerOptions } from "https";
+import { createServer as createHTTP, Server as Http } from "http";
 import { Server } from "./Server";
 
 const port: number = process.env.PORT || 8000;
@@ -11,20 +12,23 @@ const app: Application = Server.getInstance().app;
 app.set("port", port);
 
 function createOptions(): ServerOptions {
-    switch (process.env.NODE_ENV) {
-        case "dev":
-            return {
-                cert:  fs.readFileSync(path.join(__dirname, "..", "private", "cert.pem"), "utf8"),
-                key:  fs.readFileSync(path.join(__dirname, "..", "private", "key.pem"), "utf8") 
-            };
-        default:
-            return {};
+    return {
+        cert: fs.readFileSync(path.join(__dirname, "..", "private", "cert.pem"), "utf8"),
+        key: fs.readFileSync(path.join(__dirname, "..", "private", "key.pem"), "utf8")
     }
 }
 
-console.log(process.env.NODE_ENV);
-const server: Http = createServer(createOptions(), app);
+function createServer(): Http | Https {
+    switch (process.env.NODE_ENV) {
+        case "dev":
+            return createHTTPS(createOptions(), app);
+        default:
+            return createHTTP(app);
+    }
+}
 
-console.log(`listening on '${port}'`);
-server.listen(port);
+const server: any = createServer().listen(port, () => {
+    console.log(`listening on '${port}'`);
+});
+
 
