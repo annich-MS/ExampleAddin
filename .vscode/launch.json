@@ -9,7 +9,10 @@
 			"request": "launch",
 			"name": "Launch Program",
 			"program": "${workspaceRoot}\\bin\\Index.js",
-			"cwd": "${workspaceRoot}"
+			"cwd": "${workspaceRoot}",
+			"env": {
+				"NODE_ENV": "dev"
+			}
 		},
 		{
 			"type": "node",

@@ -3,6 +3,7 @@
         "jsx": "react",
         "module": "commonjs",
         "target": "es5",
-        "noImplicitAny": true
+        "noImplicitAny": true,
+        "experimentalDecorators": true
     }
 }

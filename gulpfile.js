@@ -6,7 +6,7 @@ var clientSrc = "src/client/**/*";
 var serverSrc = "src/server/**/*";
 
 gulp.task('server', () => {
-	let result = gulp.src(serverSrc)
+	var result = gulp.src(serverSrc)
 		.pipe(sourcemaps.init())
 		.pipe(typescript());
 	
@@ -16,7 +16,7 @@ gulp.task('server', () => {
 })
 
 gulp.task('client', () => {
-	let result = gulp.src(clientSrc)
+	var result = gulp.src(clientSrc)
 		.pipe(webpack)
 		.pipe(gulp.dest('public/'));
 })
